@@ -1,0 +1,107 @@
+/*
+* Copyright (c) Codiad & Andr3as, distributed
+* as-is and without warranty under the MIT License.
+* See [root]/license.md for more information. This information must remain intact.
+*/
+
+(function(global, $){
+    
+    var codiad = global.codiad,
+        scripts = document.getElementsByTagName('script'),
+        path = scripts[scripts.length-1].src.split('?')[0],
+        curpath = path.split('/').slice(0, -1).join('/')+'/';
+
+    $(function() {
+        codiad.CodeDate.init();
+    });
+
+    codiad.CodeDate = {
+        
+        path: curpath,
+        bind: null,
+        
+        init: function() {
+            var _this = this;
+            this.bind = window.setInterval(function(){_this.addKeyBindings()},1000);
+            this.loadSettings();
+            $.getScript(this.path+"moment.js");
+        },
+        
+        addKeyBindings: function(){
+            if (codiad.editor.getActive() !== null) {
+                var _this = this;
+                var _commandManager = codiad.editor.getActive().commands;
+                //clear Interval
+                window.clearInterval(this.bind);
+				_commandManager.addCommand({
+					name: 'CodeDate',
+					bindKey: {
+						"win": "Ctrl-5",
+						"mac": "Command-5"
+					},
+					exec: function () {
+						_this.insert(0);
+					}
+				});
+				_commandManager.addCommand({
+					name: 'CodeDate1',
+					bindKey: {
+						"win": "Ctrl-Shift-5",
+						"mac": "Command-Shift-5"
+					},
+					exec: function () {
+						_this.insert(1);
+					}
+				});
+			}
+        },
+        
+        showDialog: function() {
+            codiad.modal.load(400, this.path+"dialog.php");
+        },
+        
+        showSettings: function() {
+            $('#firstDate').val(this.settings[0]);
+            $('#secondDate').val(this.settings[1]);
+        },
+        
+        closeDialog: function() {
+            var first   = $('#firstDate').val();
+            var second  = $('#secondDate').val();
+            if (first !== "" && second !== "") {
+                this.saveSettings([first, second]);
+            }
+            codiad.modal.unload();
+        },
+        
+        saveSettings: function(settings) {
+            var _this = this;
+            settings = JSON.stringify(settings);
+            $.post(this.path+"controller.php?action=saveSettings", {"settings": settings}, function(data){
+                data = JSON.parse(data);
+                if (data.status == "error") {
+                    codiad.message.error(data.message);
+                } else {
+                    codiad.message.success(data.message);
+                }
+                _this.loadSettings();
+            });
+        },
+        
+        loadSettings: function() {
+            var _this = this;
+            $.getJSON(this.path+"settings.json", function(data){
+                _this.settings = data;
+            });
+        },
+        
+        insert: function(number) {
+            var dateStr = this.parse(this.settings[number]);
+            codiad.editor.insertText(dateStr);
+        },
+        
+        parse: function(string) {
+            return moment().format(string);
+        }
+    };
+})(this, jQuery);
