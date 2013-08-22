@@ -27,6 +27,11 @@
             $.getScript(this.path+"moment.js");
         },
         
+        //////////////////////////////////////////////////////////
+        //
+        //  Add key bindings
+        //
+		//////////////////////////////////////////////////////////
         addKeyBindings: function(){
             if (codiad.editor.getActive() !== null) {
                 var _this = this;
@@ -56,15 +61,30 @@
 			}
         },
         
+        //////////////////////////////////////////////////////////
+        //
+        //  Show Dialog to edit settings
+        //
+		//////////////////////////////////////////////////////////
         showDialog: function() {
             codiad.modal.load(400, this.path+"dialog.php");
         },
         
+        //////////////////////////////////////////////////////////
+        //
+        //  Enter the current settings into the input fields
+        //
+		//////////////////////////////////////////////////////////
         showSettings: function() {
             $('#firstDate').val(this.settings[0]);
             $('#secondDate').val(this.settings[1]);
         },
         
+        //////////////////////////////////////////////////////////
+        //
+        //  Close settings dialog and save new settings
+        //
+		//////////////////////////////////////////////////////////
         closeDialog: function() {
             var first   = $('#firstDate').val();
             var second  = $('#secondDate').val();
@@ -74,6 +94,15 @@
             codiad.modal.unload();
         },
         
+        //////////////////////////////////////////////////////////
+        //
+        //  Save settings given as array in settings
+        //
+        //  Parameters:
+        //
+        //  settings - {Array} - Array of formattings
+        //
+		//////////////////////////////////////////////////////////
         saveSettings: function(settings) {
             var _this = this;
             settings = JSON.stringify(settings);
@@ -88,6 +117,11 @@
             });
         },
         
+        //////////////////////////////////////////////////////////
+        //
+        //  Load setting from server
+        //
+		//////////////////////////////////////////////////////////
         loadSettings: function() {
             var _this = this;
             $.getJSON(this.path+"settings.json", function(data){
@@ -95,11 +129,29 @@
             });
         },
         
+        //////////////////////////////////////////////////////////
+        //
+        //  Insert date/time
+        //
+        //  Parameters:
+		//
+		//  number - {Integer} - Index of formatting in settings array
+		//
+		//////////////////////////////////////////////////////////
         insert: function(number) {
             var dateStr = this.parse(this.settings[number]);
             codiad.editor.insertText(dateStr);
         },
         
+        //////////////////////////////////////////////////////////
+        //
+        //  Parse current date/time by given formatting
+        //
+        //  Parameters:
+		//
+		//  string - {String} - date/time format
+		//
+		//////////////////////////////////////////////////////////
         parse: function(string) {
             return moment().format(string);
         }
