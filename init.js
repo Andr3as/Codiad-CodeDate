@@ -18,13 +18,14 @@
     codiad.CodeDate = {
         
         path: curpath,
-        bind: null,
         
         init: function() {
             var _this = this;
-            this.bind = window.setInterval(function(){_this.addKeyBindings()},1000);
             this.loadSettings();
             $.getScript(this.path+"moment.js");
+            amplify.subscribe('active.onOpen', function(path){
+                _this.addKeyBindings();
+            });
         },
         
         //////////////////////////////////////////////////////////
