@@ -135,10 +135,10 @@
         //  Insert date/time
         //
         //  Parameters:
-		//
-		//  number - {Integer} - Index of formatting in settings array
-		//
-		//////////////////////////////////////////////////////////
+        //
+        //  number - {Integer} - Index of formatting in settings array
+        //
+        //////////////////////////////////////////////////////////
         insert: function(number) {
             var dateStr = this.parse(this.settings[number]);
             codiad.editor.insertText(dateStr);
@@ -149,12 +149,25 @@
         //  Parse current date/time by given formatting
         //
         //  Parameters:
-		//
-		//  string - {String} - date/time format
-		//
-		//////////////////////////////////////////////////////////
+        //
+        //  string - {String} - date/time format
+        //
+        //////////////////////////////////////////////////////////
         parse: function(string) {
             return moment().format(string);
+        },
+        
+        //////////////////////////////////////////////////////////
+        //
+        //  Show a preview for given formats
+        //
+        //////////////////////////////////////////////////////////
+        preview: function() {
+            var first   = $('#firstDate').val();
+            var second  = $('#secondDate').val();
+            first       = this.parse(first);
+            second      = this.parse(second);
+            alert("1: "+first+"\n2: "+second);
         }
     };
 })(this, jQuery);

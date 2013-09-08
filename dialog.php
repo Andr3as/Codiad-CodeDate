@@ -9,6 +9,7 @@
     <p>More information: <a href="http://momentjs.com/docs/#/displaying/" class="linkDate" target="_blank">Moment.js</a></p>
     <button onclick="codiad.modal.unload(); return false;">Close</button>
     <button onclick="codiad.CodeDate.closeDialog(); return false;">Save</button>
+    <button onclick="codiad.CodeDate.preview(); return false;">Preview</button>
     <script>
         codiad.CodeDate.showSettings();
     </script>
