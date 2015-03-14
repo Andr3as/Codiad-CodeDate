@@ -1,11 +1,11 @@
 [{ "author" : "Andr3as",
-    "version": "1.10",
+    "version": "1.2.0",
     "name" : "CodeDate",
     "url" : "https://github.com/Andr3as/Codiad-CodeDate",
     "exclude" : "",
-    "rightbar" : [{
-        "action" : "codiad.CodeDate.showDialog();",
-        "icon" : "icon-clock",
-        "title" : "CodeDate Settings"
-        }]
+	"config": [{
+		"file": "dialog.php",
+		"icon": "icon-clock",
+		"title": "CodeDate"
+	  }]
 }]

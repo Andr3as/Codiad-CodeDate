@@ -26,6 +26,13 @@
             amplify.subscribe('active.onOpen', function(path){
                 _this.addKeyBindings();
             });
+            amplify.subscribe('settings.dialog.save', function(){
+                if ($('#dateForm').length > 0) {
+                    if ($('#dateForm').length > 0) {
+                    codiad.CodeDate.closeDialog();
+                }
+                }
+            });
         },
         
         //////////////////////////////////////////////////////////
@@ -92,7 +99,6 @@
             if (first !== "" && second !== "") {
                 this.saveSettings([first, second]);
             }
-            codiad.modal.unload();
         },
         
         //////////////////////////////////////////////////////////
